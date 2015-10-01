@@ -1,0 +1,8 @@
+#! /bin/bash
+# Set here the wlan interface to obfuscate :D
+iface=wlan1
+ifacemon=wlan1mon
+airmon-ng start $iface
+ifconfig $ifacemon down
+macchanger -r $ifacemon
+ifconfig $ifacemon up

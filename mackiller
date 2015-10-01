@@ -1,0 +1,4 @@
+#! /bin/bash
+for ((i=0;i>=6;i++)) do airmon-ng stop wlan$i && airmon-ng stop wlan$i+mon && echo wlan$i+mon
+done
+macchanger -r wlan1

@@ -1,0 +1,117 @@
+#! /bin/bash
+VERT="\\033[1;32m"
+NORMAL="\\033[0;39m"
+ROUGE="\\033[1;31m"
+ROSE="\\033[1;35m"
+BLEU="\\033[1;34m"
+BLANC="\\033[0;02m"
+BLANCLAIR="\\033[1;08m"
+JAUNE="\\033[1;33m"
+CYAN="\\033[1;36m"
+clear
+echo -e $VERT "---------------------------------------------------------"
+echo -e $VERT "---------------------------------------------------------"
+echo -e $VERT "---------------------------------------------------------"
+echo -e $VERT "---------------------------------------------------------"
+echo -e $ROUGE "|                     --------------                    |"
+echo -e $JAUNE "|                        --------                       |"
+echo -e $JAUNE "|                                                       |"
+echo -e $BLANC "  __  __   _   ___ ___  ___   _   _  _ __  __   _   ___ "
+echo -e $BLANC " |  \/  | /_\ / __/ __|/ __| /_\ | \| |  \/  | /_\ | _ \ "
+echo -e $BLANC " | |\/| |/ _ \ (__\__ \ (__ / _ \|    | |\/| |/ _ \|  _/"
+echo -e $BLANC " |_|  |_/_/ \_\___|___/\___/_/ \_\_|\_|_|  |_/_/ \_\_|  "
+echo -e $JAUNE "|                                                       |"
+echo -e $JAUNE "|                        --------                       |"
+echo -e $ROUGE "|                     --------------                    |"
+echo -e $VERT "---------------------------------------------------------"
+echo -e $VERT "---------------------------------------------------------"
+echo -e $VERT "-------Coded by MAJESTIK for MajestikFortress.com--------"
+echo -e $VERT "---------------------------------------------------------"
+echo -e $NORMAL ""
+#printf "          Scanner NMAP avec listing des IP\n"
+#printf "                vers un fichier .txt\n"
+#printf "       Utilisation de TOR/privoxy/proxychains\n"
+#printf "        pour simuler une utilisation externe\n"
+#printf "       Optimisation pour KALI LINUX sur DEBIAN\n"
+#printf "      Ecrit par MAJESTIK pour MajestikFortress.com\n"
+#echo "-------------------------------------------------------"
+#echo "-------------------------------------------------------"
+#echo "-------------------------------------------------------"
+#echo "                          ---                          "
+#echo "                          ---                          "
+#echo "                          ---                          "
+#echo "*******************************************************"
+#echo "-------------------------------------------------------"
+#printf "TESTS DE PRESENCE DES PROGRAMMES NECESSAIRES\n"
+#echo "-------------------------------------------------------"
+#echo "*******************************************************"
+alpha="/etc/tor/torrc"
+beta="/etc/proxychains.conf"
+gamma="/etc/privoxy/config"
+i=""
+prez=0
+for i in nmap tor proxychains privoxy; do
+	if type "$i" > /dev/null;
+	then
+		nothing=0
+	echo "$i est installé, c'est OK !"
+	else
+	prez=$(($prez+1))
+	echo "Installation demandée pour $i"
+	fi
+done
+#echo "code prez $prez"
+#echo "code nothing $nothing"
+echo -e $ROUGE ""
+if [ "$prez" -ge 1 ];
+then
+	apt-get install nmap tor proxychains privoxy -y
+fi
+#else
+#	echo -e $VERT "******************************************************"
+#	echo -e $VERT "------------------------------------------------------"
+#	echo -e $JAUNE"    CONFIGURATION PROXY HTTP <-> SOCKS5"
+#	echo -e $VERT "------------------------------------------------------"
+#	echo -e $VERT "******************************************************"
+#	for i in $alpha $beta $gamma; do
+#		if [ -f $i.bak]
+#		then
+#			cat $i | sed -e "s/Socksports *:9050/Socksports 127.0.0.1:9050" > i$
+#		else
+#			mv $i $i.bak
+#			echo -e $NORMAL "Fichier $i.bak cree"
+#		
+#	done
+#fi
+echo -e $VERT "******************************************************"
+echo -e $VERT "------------------------------------------------------"
+echo -e $JAUNE "          Informations pour le scan aleatoire"
+echo -e $VERT "------------------------------------------------------"
+echo -e $VERT "********************---------*************************"
+echo -e $JAUNE "           Chemin pour le fichier de sortie ?        "
+echo -e $JAUNE "                  Ex: /root/Desktop                  "
+read filepath
+echo -e $JAUNE "            Nombre de machines a scanner ?           "
+read nbhost
+echo -e $JAUNE "                   Ports a scanner ?                 "
+echo -e $JAUNE "     Separer par des virgules EX: 80, 443, 22, 21    "
+read ports
+echo -e $JAUNE "Lancement MACSCANMAP pour $nbhost machines sur $ports"
+date="SCAN-`date '+%Y-%m-%d__%H-%M-%S'`-PORTS-($ports)";
+echo -e $JAUNE "$filepath/$date"
+mkdir "$filepath/$date"
+cd "$filepath/$date"
+
+echo -e $VERT "******************************************************"
+echo -e $VERT "------------------------------------------------------"
+echo -e $JAUNE "    Lancement scanner MACSCANMAP && IP > file.txt    "
+echo -e $VERT "------------------------------------------------------"
+echo -e $VERT "********************---------*************************"
+echo -e $ROUGE""
+service tor restart
+service privoxy restart
+proxychains nmap -v -iR $nbhost -p $ports -oG - | sed '1d' | sed '1d' | sed '$d' | awk '/open/ {print $2}' > "$filepath/$date.txt"
+rm -rf "$filepath/$date"
+echo -e $JAUNE "Le fichier $date.txt        "
+echo -e $JAUNE "est pret pour alimenter un programme tiers"
+echo -e $JAUNE "MACSCANMAP termine, a plus !"

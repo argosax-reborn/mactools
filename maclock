@@ -1,0 +1,4 @@
+#! /bin/bash
+#Put wallpaper as the path displayed here
+#So in /wallpapz/locker.png
+i3lock -i /wallpapz/locker.png
