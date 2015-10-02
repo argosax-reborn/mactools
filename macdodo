@@ -1,0 +1,3 @@
+#! /bin/bash
+echo "Extinction programmée dans 1h"
+sleep 3600; shutdown -h now
